@@ -5,7 +5,10 @@ from django.urls import reverse
 from django.http import Http404
 from django.db.models import F
 from django.views import generic
+from django.utils import timezone
+
 from .models import Question, Choice
+
 
 
 
@@ -13,11 +16,21 @@ class IndexView(generic.ListView):
     template_name = "polls/index.html"
     context_object_name= "ultimas_preguntas"
     def get_queryset(self):
-        return Question.objects.order_by("-pub_date")[:5]
+        """
+        Regresa las últimas 5 preguntas sin incluir las fueron 
+        publicadas en el futuro
+        """
+        return Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
 
 class DetailView(generic.DetailView):
     model= Question
     template_name= "polls/detail.html"
+
+    def get_queryset(self):
+        """
+        Exclute cualquier pregunta que aun no se publique
+        """
+        return Question.objects.filter(pub_date__lte=timezone.now())
 
 class ResultsView(generic.DetailView):
     model = Question
