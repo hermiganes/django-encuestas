@@ -3,8 +3,8 @@
 
 {% if ultimas_preguntas %}
     <ul>
-    {% for question in ultimas_preguntas %}
-        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+    {% for pregunta in ultimas_preguntas %}
+        <li><a href="{% url 'polls:detail' pregunta.id %}">{{ pregunta.texto_pregunta }}</a></li>
     {% endfor %}
     </ul>
 {% else %}

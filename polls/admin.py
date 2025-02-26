@@ -1,21 +1,21 @@
 from django.contrib import admin
-from .models import Question, Choice
+from .models import Pregunta, Opcion
 
 # Register your models here.
 
-class ChoiceInline(admin.TabularInline):
-    model = Choice
+class OpcionInline(admin.TabularInline):
+    model = Opcion
     extra=1
 
-class QuestionAdmin (admin.ModelAdmin):
+class PreguntaAdmin (admin.ModelAdmin):
     fieldsets = [
-        ("Pregunta", {"fields": ["question_text"]}),
-        ("Fecha information", {"fields": ["pub_date"]}),
+        ("Pregunta", {"fields": ["texto_pregunta"]}),
+        ("Fecha information", {"fields": ["fecha_publicacion"]}),
     ]
-    inlines=[ChoiceInline]
-    list_display = ["question_text", "pub_date", "was_published_recently"]
-    list_filter = ["pub_date"]
-    search_fields = ["question_text"]
+    inlines=[OpcionInline]
+    list_display = ["texto_pregunta", "fecha_publicacion", "publicado_recientemente"]
+    list_filter = ["fecha_publicacion"]
+    search_fields = ["texto_pregunta"]
 
-admin.site.register(Question, QuestionAdmin)
-#admin.site.register(Choice)
+admin.site.register(Pregunta, PreguntaAdmin)
+#admin.site.register(Opcion)

@@ -4,34 +4,34 @@ from django.utils import timezone
 from django.test import TestCase
 from django.urls import reverse
 
-from .models import Question
+from .models import Pregunta
 # Create your tests here.
 
 
-class QuestionModelTests(TestCase):
-    def test_was_published_recently_with_future_question(self):
+class PreguntaModelTests(TestCase):
+    def test_publicado_recientemente_with_future_question(self):
         """
             Devuelve False para preguntas cuyo pub_date esté en el futuro
         """
         time= timezone.now() + datetime.timedelta(days=30)
-        future_question= Question(pub_date=time)
-        self.assertIs(future_question.was_published_recently(), False)
+        future_question= Pregunta(fecha_publicacion=time)
+        self.assertIs(future_question.publicado_recientemente(), False)
     
-    def test_was_published_recently_with_old_question(self):
+    def test_publicado_recientemente_with_old_question(self):
         """
-            Devuelve False para preguntas cuyo pub_date sea mayor a un día
+            Devuelve False para preguntas cuyo fecha_publicacion sea mayor a un día
         """
         time= timezone.now() - datetime.timedelta(days=1, seconds=1)
-        old_question= Question(pub_date=time)
-        self.assertIs(old_question.was_published_recently(), False)
+        old_question= Pregunta(fecha_publicacion=time)
+        self.assertIs(old_question.publicado_recientemente(), False)
 
-    def test_was_published_recently_with_recent_question(self):
+    def test_publicado_recientemente_with_recent_question(self):
         """
-            Devuelve True para preguntas cuyo pub_date sea del último día
+            Devuelve True para preguntas cuyo fecha_publicacion sea del último día
         """
         time= timezone.now() - datetime.timedelta(hours=23, minutes=59, seconds=59)
-        recent_question= Question(pub_date=time)
-        self.assertIs(recent_question.was_published_recently(), True)
+        recent_question= Pregunta(fecha_publicacion=time)
+        self.assertIs(recent_question.publicado_recientemente(), True)
 
 def create_question(question_text, days):
     """
@@ -39,10 +39,10 @@ def create_question(question_text, days):
     hoy (negativo para el pasado y positivo para el futuro)
     """
     time = timezone.now() + datetime.timedelta(days=days)
-    return Question.objects.create(question_text=question_text, pub_date=time)
+    return Pregunta.objects.create(question_text=question_text, fecha_publicacion=time)
 
 
-class QuestionIndexViewTests(TestCase):
+class PreguntaIndexViewTests(TestCase):
     def test_no_questions(self):
         """
         Si la pregunta no existe muestra un mesaje
@@ -99,7 +99,7 @@ class QuestionIndexViewTests(TestCase):
         )
 
 
-class QuestionDetailViewTests(TestCase):
+class PreguntaDetailViewTests(TestCase):
     def test_future_question(self):
         """
         la view de una pregunta publicada en el futuro, 
@@ -115,7 +115,7 @@ class QuestionDetailViewTests(TestCase):
         la view de una pregunta publicada en el pasado 
         regresara el texto de la pregunta
         """
-        past_question = create_question(question_text="Past Question.", days=-5)
+        past_question = create_question(question_text="Past Pregunta.", days=-5)
         url = reverse("polls:detail", args=(past_question.id,))
         response = self.client.get(url)
         self.assertContains(response, past_question.question_text)
