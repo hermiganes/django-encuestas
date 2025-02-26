@@ -20,7 +20,7 @@ class IndexView(generic.ListView):
         Regresa las últimas 5 preguntas sin incluir las fueron 
         publicadas en el futuro
         """
-        return Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
+        return Question.objects.filter(fecha_publicacion__lte=timezone.now()).order_by("-fecha_publicacion")[:5]
 
 class DetailView(generic.DetailView):
     model= Question
@@ -30,7 +30,7 @@ class DetailView(generic.DetailView):
         """
         Exclute cualquier pregunta que aun no se publique
         """
-        return Question.objects.filter(pub_date__lte=timezone.now())
+        return Question.objects.filter(fecha_publicacion__lte=timezone.now())
 
 class ResultsView(generic.DetailView):
     model = Question
@@ -39,7 +39,7 @@ class ResultsView(generic.DetailView):
 """
 
 def index(request):
-    ultimas_preguntas= Question.objects.order_by("-pub_date")[:5]
+    ultimas_preguntas= Question.objects.order_by("-fecha_publicacion")[:5]
     #template = loader.get_template("polls/index.html")
     context = {
         "ultimas_preguntas": ultimas_preguntas,
@@ -74,7 +74,7 @@ def vote( request, question_id):
         }
         return render(request, "polls/detail.html", context )
     else:
-        selected_choice.votes = F("votes") +1 
+        selected_choice.votes =  F("votes") + 1 
         selected_choice.save()
         return HttpResponseRedirect(reverse("polls:results", args=(question_id,)))
 
