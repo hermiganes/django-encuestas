@@ -4,9 +4,9 @@
 {% if ultimas_preguntas %}
     <ul>
     {% for pregunta in ultimas_preguntas %}
-        <li><a href="{% url 'polls:detail' pregunta.id %}">{{ pregunta.texto_pregunta }}</a></li>
+        <li><a href="{% url 'polls:detalles' pregunta.id %}">{{ pregunta.texto_pregunta }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
-    <p>No polls are available.</p>
+    <p>Lo sentimos. Aún no hay preguntas.</p>
 {% endif %}

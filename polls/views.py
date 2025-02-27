@@ -12,7 +12,7 @@ from .models import Pregunta, Opcion
 
 
 
-class IndexView(generic.ListView):
+class IndiceVista(generic.ListView):
     template_name = "polls/index.html"
     context_object_name= "ultimas_preguntas"
     def get_queryset(self):
@@ -22,60 +22,34 @@ class IndexView(generic.ListView):
         """
         return Pregunta.objects.filter(fecha_publicacion__lte=timezone.now()).order_by("-fecha_publicacion")[:5]
 
-class DetailView(generic.DetailView):
+class DetallesVista(generic.DetailView):
     model= Pregunta
-    template_name= "polls/detail.html"
+    template_name= "polls/detalles.html"
 
     def get_queryset(self):
         """
-        Exclute cualquier pregunta que aun no se publique
+        Excluye cualquier pregunta que aún no se publique
         """
         return Pregunta.objects.filter(fecha_publicacion__lte=timezone.now())
 
-class ResultsView(generic.DetailView):
+class ResultadosVista(generic.DetailView):
     model = Pregunta
-    template_name = "polls/results.html"
+    template_name = "polls/resultados.html"
 
-"""
-
-def index(request):
-    ultimas_preguntas= Pregunta.objects.order_by("-fecha_publicacion")[:5]
-    #template = loader.get_template("polls/index.html")
-    context = {
-        "ultimas_preguntas": ultimas_preguntas,
-    }
-    #output= ", ".join([q.texto_pregunta for q in ultimas_preguntas])
-    #return HttpResponse(template.render(context, request))
-    return render(request, "polls/index.html", context )
-
-def detail(request, pregunta_id):
-
-    #try:
-    #    pregunta = Pregunta.objects.get(id=pregunta_id)
-    #except:
-    #    raise Http404("La pregunta no existe")
-    #return HttpResponse(f"La pregunta es {pregunta_id} es: {pregunta}")
-
-    pregunta = get_object_or_404(Pregunta, pk=pregunta_id)
-    return render(request, "polls/detail.html", {"pregunta": pregunta})
-
-def results(request, pregunta_id):
-    pregunta = get_object_or_404(Pregunta, pk=pregunta_id)
-    return render(request, "polls/results.html", {"pregunta": pregunta})
-"""
-def vote( request, pregunta_id):
+def votacion( request, pregunta_id):
     pregunta = get_object_or_404(Pregunta, pk=pregunta_id)
     try:
-        selected_choice= pregunta.choice_set.get(pk= request.POST["choice"])
+        pk = request.POST["opcion"]
+        selected_choice= pregunta.opcion_set.get(pk= pk)
     except (KeyError, Opcion.DoesNotExist):
         context= {
             "pregunta": pregunta,
             "error_message": "No seleccionaste una opción"
         }
-        return render(request, "polls/detail.html", context )
+        return render(request, "polls/detalles.html", context )
     else:
         selected_choice.votos =  F("votos") + 1 
         selected_choice.save()
-        return HttpResponseRedirect(reverse("polls:results", args=(pregunta_id,)))
+        return HttpResponseRedirect(reverse("polls:resultados", args=(pregunta_id,)))
 
 

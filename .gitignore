@@ -1,0 +1,10 @@
+mysite/__pycache__/
+polls/__pycache__/*.pyc
+polls/migrations/__pycache__/
+
+__pycache__/
+*/__pycache__/
+*/__pycache__/*.pyc
+*/*/__pycache__/
+
+*.pyc
