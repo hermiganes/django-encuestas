@@ -22,6 +22,12 @@ class IndiceVista(generic.ListView):
         """
         return Pregunta.objects.filter(fecha_publicacion__lte=timezone.now()).order_by("-fecha_publicacion")[:5]
 
+class CrearPregunta(generic.CreateView):
+    model= Opcion
+    fields = ["texto_opcion", "pregunta"]
+    template_name = "polls/crear_pregunta.html"
+
+
 class DetallesVista(generic.DetailView):
     model= Pregunta
     template_name= "polls/detalles.html"
@@ -37,10 +43,15 @@ class ResultadosVista(generic.DetailView):
     template_name = "polls/resultados.html"
 
 def votacion( request, pregunta_id):
+    """
+    Actualiza los votos, en la base de datos, de la opción seleccionada para la pregunta indicada,
+    y redirige a la página de resultados. 
+    Si el usario no seleccionada una opción, vuelve a renderizar la página.
+    """
     pregunta = get_object_or_404(Pregunta, pk=pregunta_id)
     try:
         pk = request.POST["opcion"]
-        selected_choice= pregunta.opcion_set.get(pk= pk)
+        opcion_seleccionada= pregunta.opcion_set.get(pk= pk)
     except (KeyError, Opcion.DoesNotExist):
         context= {
             "pregunta": pregunta,
@@ -48,8 +59,8 @@ def votacion( request, pregunta_id):
         }
         return render(request, "polls/detalles.html", context )
     else:
-        selected_choice.votos =  F("votos") + 1 
-        selected_choice.save()
+        opcion_seleccionada.votos =  F("votos") + 1 
+        opcion_seleccionada.save()
         return HttpResponseRedirect(reverse("polls:resultados", args=(pregunta_id,)))
 
 
