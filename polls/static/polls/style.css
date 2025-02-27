@@ -3,5 +3,39 @@ li a {
 }
 
 body {
-    background: white url("images/background.png") no-repeat;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+.header .logo {
+    height: 50px;
+}
+.header .page-title {
+    font-size: 48px;
+    font-weight: bold;
+}
+.menu {
+    display: flex;
+    gap: 20px;
+}
+.menu a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 18px;
+}
+.menu a:hover {
+    text-decoration: underline;
+}
+.content {
+    padding: 20px;
 }

@@ -2,6 +2,7 @@
     {% csrf_token %}
     <fieldset>
         <legend><h1>{{ pregunta.texto_pregunta }}</h1></legend>
+        <p><strong>Seleccione una opción</strong></p>
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
         {% for opcion in pregunta.opcion_set.all %}
             <input type="radio" name="opcion" id="opcion{{ forloop.counter }}" value="{{ opcion.id }}">

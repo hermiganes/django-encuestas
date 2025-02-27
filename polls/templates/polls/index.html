@@ -1,12 +1,43 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'polls/style.css' %}">
 
-{% if ultimas_preguntas %}
-    <ul>
-    {% for pregunta in ultimas_preguntas %}
-        <li><a href="{% url 'polls:detalles' pregunta.id %}">{{ pregunta.texto_pregunta }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>Lo sentimos. Aún no hay preguntas.</p>
-{% endif %}
+
+<body>
+    <div class="header">
+        <!-- Logo de la empresa a la izquierda -->
+        <img src="{% static 'polls/images/logo_infotec.png' %}" alt="Logo Empresa" class="logo">
+
+        <!-- Nombre de la página al centro /home/esca/Proyectos/example/tutorial/polls/static/polls/images/background.png-->
+        <div class="page-title">Info Encuestas</div>
+
+        <!-- Logo de la institución a la derecha -->
+        <img src="{% static 'polls/images/logo_infotec.png' %}" alt="Logo Institución" class="logo">
+    </div>
+
+    <!-- Menú de opciones -->
+    <div class="header">
+        <div class="menu">
+            <a href="{% url 'polls:indice' %}">Inicio</a>
+            <a href="{% url 'polls:indice' %}">Encuestas</a>
+            <a href="{% url 'polls:indice' %}">Mapa</a>
+        </div>
+    </div>
+
+    <!-- Contenido de la página -->
+    <div class="content">
+        {% if ultimas_preguntas %}
+        <h1>Bienvenido a la página de encuestas</h1>
+        <p> El listado de preguntas se muestra a continuación, seleccione una pregunta para dar su voto. </p>
+        <ul>
+        {% for pregunta in ultimas_preguntas %}
+            <li><a href="{% url 'polls:detalles' pregunta.id %}">{{ pregunta.texto_pregunta }}</a></li>
+        {% endfor %}
+        </ul>
+        {% else %}
+            <p>Lo sentimos. Aún no hay preguntas.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
+
+
