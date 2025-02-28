@@ -11,6 +11,8 @@ from django.db.models.functions import Coalesce
 
 from .models import Pregunta, Opcion
 
+import json
+
 
 def top_encuestas(min=3):
     mas_votadas = Pregunta.objects.filter(
@@ -40,8 +42,15 @@ def indice_vista(request):
 
     return render(request, 'polls/index.html', context)
 
-def mapa(request):
+def mapa2(request):
     context = top_encuestas()
+    return render(request, 'polls/mapa2.html', context)
+
+def mapa(request):
+    with open("polls/static/polls/alcaldias.geojson", 'r', encoding='utf-8') as f:
+        geojson_data = json.load(f)
+    context = top_encuestas()
+    context["geojson_data"] = geojson_data
     return render(request, 'polls/mapa.html', context)
 
 

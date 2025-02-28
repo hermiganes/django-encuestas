@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{% static 'polls/style.css' %}">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.6.3.js"></script>
 
 
 <body>
@@ -58,9 +58,20 @@
                     maxZoom: 19,
                     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                 }).addTo(map);
-                var geojsonData = {{ geojson_data|safe }};
-                L.geoJSON(geojsonData).addTo(map);
-           
+                
+                
+                $.getJSON("{% static 'polls/alcaldias.geojson' %}", function(alcaldias) {
+                    L.geoJson(alcaldias).addTo(map);
+                });
+
+                /*
+                    fetch("{% static 'polls/alcaldias.geojson' %}")
+                        .then(response => response.json())
+                        .then(data => {
+                            L.geoJSON(data).addTo(map);
+                        });
+                */
+            
               </script>
         </div>
 
