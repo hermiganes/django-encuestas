@@ -10,6 +10,7 @@ urlpatterns = [
     path("nueva_encuesta/", views.CrearPregunta.as_view(), name="crear_pregunta"),
     path("mapa/", views.mapa, name="mapa"),
     path("mapa2/", views.mapa2, name="mapa2"),
+    path("mapa3/", views.mapa3, name="mapa3"),
     path("<int:pk>/", views.DetallesVista.as_view(), name="detalles"),
     path("<int:pk>/resultados/", views.ResultadosVista.as_view(), name="resultados"),
     path("<int:pregunta_id>/votacion/", views.votacion, name="votacion")

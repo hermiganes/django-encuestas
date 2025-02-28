@@ -42,6 +42,10 @@ def indice_vista(request):
 
     return render(request, 'polls/index.html', context)
 
+def mapa3(request):
+    context = top_encuestas()
+    return render(request, 'polls/mapa3.html', context)
+
 def mapa2(request):
     context = top_encuestas()
     return render(request, 'polls/mapa2.html', context)

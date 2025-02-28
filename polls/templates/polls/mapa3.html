@@ -1,0 +1,101 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'polls/style.css' %}">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script type="text/javascript" src="{% static 'polls/alcaldias.js' %}"></script>
+
+
+<body>
+    <div class="encabezado">
+        <div class="logos">
+            <img src="{% static 'polls/images/logo1.png' %}" alt="Logo Empresa" class="logo">
+            <div class="titulo">Info Encuestas</div>
+            <img src="{% static 'polls/images/logo2.png' %}" alt="Logo Institución" class="logo">
+        </div>
+        <div class="menu">
+            <a href="{% url 'polls:indice' %}">Inicio</a>
+            <a href="{% url 'polls:crear_pregunta' %}">Hacer encuesta</a>
+            <a href="{% url 'polls:mapa' %}">Mapa</a>
+            
+        </div>
+    </div>
+
+    
+    <div class="contenido">
+        <div class="barra_lateral">
+            <!-- Contenido de barra_lateral -->
+            <p> <strong>Encuestas más votadas </strong> </p>
+            {% if mas_votadas %}
+            {% for pregunta in mas_votadas %}
+                <li><a href="{% url 'polls:resultados' pregunta.id %}">{{ pregunta.texto_pregunta }}</a></li>
+                <p></p>
+            {% endfor %}
+            </ul >
+            {% else %}
+                <p>Lo sentimos. Aún no hay preguntas.</p>
+            {% endif %}
+
+            <p> <strong>Encuestas votadas recientemente </strong> </p>
+            
+            {% if mas_votadas %}
+            {% for pregunta in votadas_reciente %}
+                <li><a href="{% url 'polls:resultados' pregunta.id %}">{{ pregunta.texto_pregunta }}</a></li>
+                <p></p>
+            {% endfor %}
+            </ul>
+            {% else %}
+                <p>Lo sentimos. Aún no hay preguntas.</p>
+            {% endif %}
+        </div>
+        <!-- Contenido -->
+        <div class="contenido_principal">
+            <legend><h1 class="titulo_centrado">MAPA WEB</h1></legend>
+            <div id="map"></div>
+            <script>
+                // Mapa Leafletjs
+                var openstreetmap = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                    })
+
+                var satelite = L.tileLayer("http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}",{
+                    maxZoom:18,
+                })
+
+                var map = L.map('map', {
+                    center: [19.19, -99.14609],
+                    zoom: 10,
+                    layers: [openstreetmap]
+                });
+
+                function popup(feature, layer) { 
+                if (feature.properties && feature.properties.NOMGEO) 
+                { 
+                layer.bindPopup(feature.properties.NOMGEO); 
+                } 
+                }
+
+                
+                var geojsonData = L.geoJSON(geojson,{onEachFeature: popup}).addTo(map);
+
+                var alcaldias = L.layerGroup([geojsonData]);
+                var mapas_base = {
+                    "OpenStreetMap": openstreetmap,
+                    "Google Satelite": satelite,
+                };
+
+                var capas = {
+                    "Alcaldías": alcaldias
+                };
+
+                var layerControl = L.control.layers(mapas_base, capas).addTo(map);
+                
+           
+              </script>
+        </div>
+
+    </div>
+</body>
+
+
+
