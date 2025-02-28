@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    <!-- Contenido -->
+    
     <div class="contenido">
         <div class="barra_lateral">
             <!-- Contenido de barra_lateral -->
@@ -44,19 +44,9 @@
                 <p>Lo sentimos. Aún no hay preguntas.</p>
             {% endif %}
         </div>
+        <!-- Contenido -->
         <div class="contenido_principal">
-            {% if ultimas_preguntas %}
-            <legend><h1 class="titulo_centrado">Bienvenido a la página de encuestas</h1></legend>
-            <p> El listado de encuestas se muestra a continuación, seleccione una para dar su voto. </p>
-            <ul>
-            {% for pregunta in ultimas_preguntas %}
-                <li><a href="{% url 'polls:detalles' pregunta.id %}">{{ pregunta.texto_pregunta }}</a></li>
-                <p></p>
-            {% endfor %}
-            </ul>
-            {% else %}
-                <p>Lo sentimos. Aún no hay preguntas.</p>
-            {% endif %}
+            <legend><h1 class="titulo_centrado">MAPA WEB</h1></legend>
         </div>
     </div>
 </body>

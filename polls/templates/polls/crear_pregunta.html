@@ -1,5 +1,29 @@
-<form method="post">
-{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Save">
-</form>
+{% load static %}
+<link rel="stylesheet" href="{% static 'polls/style.css' %}">
+
+
+<body>
+    <div class="encabezado">
+        <div class="logos">
+            <img src="{% static 'polls/images/logo1.png' %}" alt="Logo Empresa" class="logo">
+            <div class="titulo">Info Encuestas</div>
+            <img src="{% static 'polls/images/logo2.png' %}" alt="Logo Institución" class="logo">
+        </div>
+        <div class="menu">
+            <a href="{% url 'polls:indice' %}">Inicio</a>
+            <a href="{% url 'polls:crear_pregunta' %}">Hacer encuesta</a>
+            <a href="{% url 'polls:mapa' %}">Mapa</a>
+            
+        </div>
+    </div>
+
+
+    <!-- Contenido -->
+    <div class="contenido_simple">
+        <form method="post">
+            {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Save">
+        </form>
+    </div>
+</body>

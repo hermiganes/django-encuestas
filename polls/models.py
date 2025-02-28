@@ -8,6 +8,7 @@ from django.contrib import admin
 class Pregunta(models.Model):
     texto_pregunta= models.CharField(max_length=200)
     fecha_publicacion= models.DateTimeField("date published")
+    fecha_votacion = models.DateTimeField("date votacion", null=True, blank=True)
     
     @admin.display(
         boolean=True,

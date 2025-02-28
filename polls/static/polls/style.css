@@ -1,41 +1,129 @@
 li a {
     color: green;
+    padding-bottom: 5px;
 }
 
 body {
     margin: 0;
     font-family: Arial, sans-serif;
+    background-color: #FFF5F5;
 }
-.header {
-    display: flex;
+.encabezado {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: #f8f9fa;
+    background-color: hsl(40, 25%, 75%);
     border-bottom: 1px solid #ddd;
     position: sticky;
     top: 0;
     z-index: 1000;
 }
-.header .logo {
-    height: 50px;
+
+.logos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 20px;
 }
-.header .page-title {
+.encabezado .logo {
+    height: 60px;
+}
+.encabezado .titulo {
     font-size: 48px;
     font-weight: bold;
+    color: #611232;
 }
 .menu {
     display: flex;
     gap: 20px;
+    padding-top: 10px;
+
 }
 .menu a {
     text-decoration: none;
-    color: #007bff;
+    color: #611232;
     font-size: 18px;
 }
 .menu a:hover {
     text-decoration: underline;
 }
-.content {
+.contenido {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    height: 100vh;
+}
+
+.contenido_simple {
     padding: 20px;
+}
+.barra_lateral {
+    background-color: #FFF5F5;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+}
+.contenido_principal {
+    background-color: #FFF5F5;
+    padding: 5px;
+    padding-left: 25px;
+}
+.titulo_centrado {
+    text-align: center;
+  }
+
+
+fieldset {
+    display: block;
+    margin-left: 20px;
+    margin-right: 2px;
+    border: 2px groove (internal value);
+    font-size: 20px;
+  }
+
+p, a, label{
+    font-size: 20px;
+}
+
+
+input[type=button], input[type=submit], input[type=reset] {
+    background-color: #7D8491;
+    border: 5px;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-size: 25px;
+    border-radius: 5px
+  }
+
+
+table {
+    width: 70%;
+    border-collapse: collapse; /* Elimina el espacio entre celdas */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+th {
+    background-color: #7D8491; /* Color de fondo del encabezado */
+    color: white; /* Color del texto del encabezado */
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #FFF5F5; /* Color de fondo para filas pares */
+}
+
+tr:hover {
+    background-color: #f0f0f0; /* Color de fondo al pasar el ratón */
+}
+
+td {
+    border-bottom: 1px solid #ddd; /* Línea inferior para cada celda */
 }
