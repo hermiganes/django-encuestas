@@ -52,14 +52,44 @@
             <legend><h1 class="titulo_centrado">MAPA WEB</h1></legend>
             <div id="map"></div>
             <script>
-                // Inicializar el mapa en un centro específico y un nivel de zoom
-                var map = L.map('map').setView([19.4374, -99.1402], zoom=12);
-                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                // Mapa Leafletjs
+                var openstreetmap = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     maxZoom: 19,
                     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                }).addTo(map);
-                var geojsonData = {{ geojson_data|safe }};
-                L.geoJSON(geojsonData).addTo(map);
+                    })
+
+                var satelite = L.tileLayer("http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}",{
+                    maxZoom:18,
+                })
+
+                var map = L.map('map', {
+                    center: [19.19, -99.14609],
+                    zoom: 10,
+                    layers: [openstreetmap]
+                });
+
+                function popup(feature, layer) { 
+                if (feature.properties && feature.properties.NOMGEO) 
+                { 
+                layer.bindPopup(feature.properties.NOMGEO); 
+                } 
+                }
+
+                
+                var geojsonData = L.geoJSON({{ geojson_data|safe }},{onEachFeature: popup}).addTo(map);
+
+                var alcaldias = L.layerGroup([geojsonData]);
+                var mapas_base = {
+                    "OpenStreetMap": openstreetmap,
+                    "Google Satelite": satelite,
+                };
+
+                var capas = {
+                    "Alcaldías": alcaldias
+                };
+
+                var layerControl = L.control.layers(mapas_base, capas).addTo(map);
+                
            
               </script>
         </div>
