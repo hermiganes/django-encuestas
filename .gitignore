@@ -9,3 +9,5 @@ __pycache__/
 
 *.pyc
 .env
+pnc/
+__polls_views.py
