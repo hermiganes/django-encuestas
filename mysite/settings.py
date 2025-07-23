@@ -38,6 +38,10 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
+# Para el host en deploy
+RENDER_HOSTNAME= env('RENDER_HOSTNAME')
+if not DEBUG:
+    ALLOWED_HOSTS.append(RENDER_HOSTNAME)
 
 # Application definition
 
